@@ -9,6 +9,11 @@ def imageToBase64(image):
     img_str = img_str.decode('utf-8')
     return img_str
 
+def base64toImage(base64string):
+    img_str = base64.b64decode(base64string)
+    img_str = img_str.decode('utf-8')
+    image = Image.open(img_str)
+
 def getTestPixel(image, size):
     org_size = image.size
     ## should be size
