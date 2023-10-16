@@ -6,13 +6,13 @@ def imageToBase64(image):
     buffered = BytesIO()
     image.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue())
-    ## returns bytes, do on frontend is better
-    ## print(img_str.decode('utf-8'))
+    img_str = img_str.decode('utf-8')
     return img_str
 
 def getTestPixel(image, size):
     org_size = image.size
-    pixelate_lvl = size
+    ## should be size
+    pixelate_lvl = 8
 
     image = image.resize(
         size=(org_size[0] // pixelate_lvl, org_size[1] // pixelate_lvl),
