@@ -21,7 +21,7 @@ class PixelPartnerAPI:
         def put(self):
             data = request.get_json()  # Get JSON data from the request
             pixelated_image = getTestPixel(data['base64image'])
-            return jsonify({"Base-64": imageToBase64(pixelated_image)})
+            return jsonify({"base64image": imageToBase64(pixelated_image)})
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
