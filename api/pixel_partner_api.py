@@ -15,10 +15,10 @@ class PixelPartnerAPI:
 
     class _Test(Resource):
         def get(self):
-            return jsonify({"Test": "Yay!"})
+            return jsonify({"Connection Test": "Successfully connected to backend!"})
 
     class _Pixelate(Resource):
-        def put(self):
+        def post(self):
             data = request.get_json()  # Get JSON data from the request
             pixelated_image = pixelate(base64toImage(data['base64image']), int(data['pixelate_level']))
             return jsonify({"base64image": imageToBase64(pixelated_image)})
@@ -30,5 +30,3 @@ if __name__ == "__main__":
     server = "http://127.0.0.1:8017" # run local
     # server = 'https://fte.nighthawkcodingsociety.com' # run from web
     url = server + "/api/pixel-partner-api"
-    
-    request.get(url+"/test")

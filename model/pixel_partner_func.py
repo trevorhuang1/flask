@@ -29,5 +29,5 @@ def pixelate(image, size):
 # Test Joke Model
 if __name__ == "__main__": 
     image = Image.open('../hacks/images/clouds-impression.png')
-    imageToBase64(getTestPixel(image, 8))
+    imageToBase64(pixelate(image, 8))
     print("~~~Debug~~~")
