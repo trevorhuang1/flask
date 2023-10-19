@@ -11,13 +11,14 @@ pixel_partner_api = Blueprint('pixel_partner_api', __name__,
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
 api = Api(pixel_partner_api)
-CORS(pixel_partner_api, origins="*")
+CORS(pixel_partner_api)
 
 class PixelPartnerAPI:
 
     class _Test(Resource):
         def get(self):
             response = jsonify({"Connection Test": "Successfully connected to backend!"})
+            response.headers.add('Access-Control-Allow-Origin', '*')
             return response
 
     class _Pixelate(Resource):
@@ -25,6 +26,7 @@ class PixelPartnerAPI:
             data = request.get_json()  # Get JSON data from the request
             pixelated_image = pixelate(base64toImage(data['base64image']), int(data['pixelate_level']))
             response = jsonify({"base64image": imageToBase64(pixelated_image)})
+            response.headers.add('Access-Control-Allow-Origin', '*')
             return response
 
     api.add_resource(_Test, '/test')
