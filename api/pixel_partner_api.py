@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify  # jsonify creates an endpoint response object
 from flask_restful import Api, Resource # used for REST API building
+from flask_cors import CORS
 import requests  # used for testing 
 import random
 
@@ -10,18 +11,21 @@ pixel_partner_api = Blueprint('pixel_partner_api', __name__,
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
 api = Api(pixel_partner_api)
+CORS(pixel_partner_api)
 
 class PixelPartnerAPI:
 
     class _Test(Resource):
         def get(self):
-            return jsonify({"Connection Test": "Successfully connected to backend!"})
+            response = jsonify({"Connection Test": "Successfully connected to backend!"})
+            return response
 
     class _Pixelate(Resource):
         def post(self):
             data = request.get_json()  # Get JSON data from the request
             pixelated_image = pixelate(base64toImage(data['base64image']), int(data['pixelate_level']))
-            return jsonify({"base64image": imageToBase64(pixelated_image)})
+            response = jsonify({"base64image": imageToBase64(pixelated_image)})
+            return response
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
