@@ -11,7 +11,7 @@ pixel_partner_api = Blueprint('pixel_partner_api', __name__,
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
 api = Api(pixel_partner_api)
-CORS(pixel_partner_api)
+CORS(pixel_partner_api, origins="*")
 
 class PixelPartnerAPI:
 
