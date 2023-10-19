@@ -3,6 +3,7 @@ from flask_restful import Api, Resource # used for REST API building
 from flask_cors import CORS
 import requests  # used for testing 
 import random
+import os
 
 from model.pixel_partner_func import *
 
@@ -11,9 +12,9 @@ pixel_partner_api = Blueprint('pixel_partner_api', __name__,
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
 api = Api(pixel_partner_api)
-# CORS(pixel_partner_api, resources={r"/api/*": {"origins": "*"}})
+if not os.path.isdir('/etc/nginx'):
+    CORS(pixel_partner_api, resources={r"/api/*": {"origins": "*"}})
 # Uncomment above line for local testing
-
 class PixelPartnerAPI:
 
     class _Test(Resource):
