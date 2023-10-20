@@ -27,6 +27,13 @@ class PixelPartnerAPI:
             pixelated_image = pixelate(base64toImage(data['base64image']), int(data['pixelate_level']))
             response = jsonify({"base64image": imageToBase64(pixelated_image)})
             return response
+        
+    class _Combine(Resource):
+        def post(self):
+            data = request.get_json()
+            combined_image = combine(data['base64image1'], data['base62image2'], data['direction'])
+            response = jsonify({"base64image": imageToBase64(combined_image)})
+            return response
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
