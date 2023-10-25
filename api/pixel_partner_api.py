@@ -31,12 +31,14 @@ class PixelPartnerAPI:
     class _Combine(Resource):
         def post(self):
             data = request.get_json()
-            combined_image = combine(data['base64image1'], data['base62image2'], data['direction'])
-            response = jsonify({"base64image": imageToBase64(combined_image)})
+            print(data)
+            combined_image = combine(data['base64image1'], data['base64image2'], data['direction'])
+            response = jsonify({"base64image": combined_image})
             return response
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
+    api.add_resource(_Combine, '/combine/')
 
 if __name__ == "__main__": 
     server = "http://127.0.0.1:8017" # run local
