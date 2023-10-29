@@ -40,13 +40,10 @@ class PixelPartnerAPI:
             return response
         
     class _GetDatabase(Resource):
-        
+        def get(self):
+            return queryImages()
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
     api.add_resource(_Combine, '/combine/')
-
-if __name__ == "__main__": 
-    server = "http://127.0.0.1:8017" # run local
-    # server = 'https://fte.nighthawkcodingsociety.com' # run from web
-    url = server + "/api/pixel-partner-api"
+    api.add_resource(_GetDatabase, '/get_database')

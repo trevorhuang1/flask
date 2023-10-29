@@ -4,21 +4,11 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 import json # NOTE: Can replace with Flask jsonify later
 
-Base = declarative_base()
-
 class Images(Base):
     __tablename__ = 'images'
     imageName = Column(String, primary_key=True, nullable=False)  # Added nullable=False for primary key
     imageFunc = Column(String, nullable=False)  # Added nullable=False for non-nullable columns
     imageBase64 = Column(String, nullable=False)
-
-# Create a database connection and session
-engine = create_engine('sqlite:///database2.db')
-Session = sessionmaker(bind=engine)
-session = Session()
-
-# Create the database table
-Base.metadata.create_all(engine)
 
 # Insert data into the database
 def createImage(name, func, image):
@@ -41,15 +31,30 @@ def queryImages():
 
     return json.dumps(image_list)  # Return JSON
 
-createImage("test1", "pixelate", "base-64sdfsdfsdfsdf")
-createImage("test2", "combine", "base-64yayayayayaya")
-createImage("test3", "a", "sdfsdfasfsdf-ballin")
-createImage("test4", "b", "waltuh")
-print(queryImages())
+# Testing
+if __name__ == "__main__": 
+    Base = declarative_base()
+    
+    # Create a database connection and session
+    engine = create_engine('sqlite:///database2.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-session.rollback()
+    # Create the database table
+    Base.metadata.create_all(engine)
 
-session.query(Images).delete()
-session.commit()
+    print("yayayayay")
+    """ Stuff
+    createImage("test1", "pixelate", "base-64sdfsdfsdfsdf")
+    createImage("test2", "combine", "base-64yayayayayaya")
+    createImage("test3", "a", "sdfsdfasfsdf-ballin")
+    createImage("test4", "b", "waltuh")
+    print(queryImages())
 
-session.close()
+    session.rollback()
+
+    session.query(Images).delete()
+    session.commit()
+
+    session.close()
+    """
