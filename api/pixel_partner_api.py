@@ -6,6 +6,7 @@ import random
 import os
 
 from model.pixel_partner_func import *
+from model.pixel_partner_history import *
 
 pixel_partner_api = Blueprint('pixel_partner_api', __name__,
                    url_prefix='/api/pixel-partner-api')
@@ -26,6 +27,7 @@ class PixelPartnerAPI:
             data = request.get_json()  # Get JSON data from the request
             pixelated_image = pixelate(base64toImage(data['base64image']), int(data['pixelate_level']))
             response = jsonify({"base64image": imageToBase64(pixelated_image)})
+            createImage(data['image_name'], 'pixelate', imageToBase64(pixelated_image)) # adds to database
             return response
         
     class _Combine(Resource):
@@ -34,7 +36,11 @@ class PixelPartnerAPI:
             print(data)
             combined_image = combine(data['base64image1'], data['base64image2'], data['direction'])
             response = jsonify({"base64image": combined_image})
+            createImage(data['image_name'], 'combine', imageToBase64(combined_image)) # adds to database
             return response
+        
+    class _GetDatabase(Resource):
+        
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')

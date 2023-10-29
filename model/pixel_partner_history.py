@@ -47,12 +47,9 @@ createImage("test3", "a", "sdfsdfasfsdf-ballin")
 createImage("test4", "b", "waltuh")
 print(queryImages())
 
-"""
 session.rollback()
 
 session.query(Images).delete()
 session.commit()
 
 session.close()
-
-"""
