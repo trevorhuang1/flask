@@ -60,6 +60,9 @@ def combine(b641, b642, direction, resample=Image.BICUBIC, resize_big_image=True
         dst.paste(_im2, (0, _im1.height))
     return imageToBase64(dst)
 
+def grayscale(image):
+    return ImageOps.grayscale(image)
+
 def colorscale(image, target_color):
     r, g, b = image.split()
     r = r.point(lambda i: i * target_color[0] // 255)
