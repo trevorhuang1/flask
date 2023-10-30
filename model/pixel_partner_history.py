@@ -4,6 +4,21 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 import json # NOTE: Can replace with Flask jsonify later
 
+Base = declarative_base()
+
+# Initialize DB
+def initializeDatabase():
+    # Global so all functions can use
+    global engine, Session, session
+
+    # Create a database connection and session
+    engine = create_engine('sqlite:///database2.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    # Create the database table
+    Base.metadata.create_all(engine)
+
 class Images(Base):
     __tablename__ = 'images'
     imageName = Column(String, primary_key=True, nullable=False)  # Added nullable=False for primary key
@@ -12,12 +27,14 @@ class Images(Base):
 
 # Insert data into the database
 def createImage(name, func, image):
+    initializeDatabase()
     newImage = Images(imageName=name, imageFunc=func, imageBase64=image)
     session.add(newImage)
     session.commit()
 
 # Query data from the database
 def queryImages():
+    initializeDatabase()
     images = session.query(Images).all()
     image_list = []
 
@@ -31,30 +48,23 @@ def queryImages():
 
     return json.dumps(image_list)  # Return JSON
 
-# Testing
-if __name__ == "__main__": 
-    Base = declarative_base()
-    
-    # Create a database connection and session
-    engine = create_engine('sqlite:///database2.db')
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    # Create the database table
-    Base.metadata.create_all(engine)
-
-    print("yayayayay")
-    """ Stuff
+# Debugging
+def debugDatabase():
+    initializeDatabase()
     createImage("test1", "pixelate", "base-64sdfsdfsdfsdf")
     createImage("test2", "combine", "base-64yayayayayaya")
     createImage("test3", "a", "sdfsdfasfsdf-ballin")
     createImage("test4", "b", "waltuh")
-    print(queryImages())
 
+# Testing
+if __name__ == "__main__": 
+    initializeDatabase()
+    """
     session.rollback()
 
     session.query(Images).delete()
     session.commit()
 
-    session.close()
+    #session.close()
     """
+    
