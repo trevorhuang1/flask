@@ -1,6 +1,7 @@
-from PIL import Image
+from PIL import Image, ImageOps
 import base64
 from io import BytesIO
+import IPython.display as display
 
 def imageToBase64(image):
     buffered = BytesIO()
@@ -59,6 +60,12 @@ def combine(b641, b642, direction, resample=Image.BICUBIC, resize_big_image=True
         dst.paste(_im2, (0, _im1.height))
     return imageToBase64(dst)
 
+def colorscale(image, target_color):
+    r, g, b = image.split()
+    r = r.point(lambda i: i * target_color[0] // 255)
+    g = g.point(lambda i: i * target_color[1] // 255)
+    b = b.point(lambda i: i * target_color[2] // 255)
+    return Image.merge('RGB', (r, g, b))
 
 # Test Pixel Model
 if __name__ == "__main__": 

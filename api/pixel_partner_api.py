@@ -50,9 +50,19 @@ class PixelPartnerAPI:
             data = request.get_json()
             createImage(data["Name"], data["Function"], data["Base64Image"])
 
+    # Colorscale functions
+    class _Colorscale(Resource):
+        def post(self):
+            data = request.get_json() 
+            colored_image = colorscale(base64toImage(data['Base64Image']), tuple([int(data['R']), int(data['G']), int(data['B'])]))
+            response = jsonify({"Base64Image": imageToBase64(colored_image)})
+            createImage(data['image_name'], 'colorscale', imageToBase64(colored_image)) # adds to database
+            return response
+
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
     api.add_resource(_Combine, '/combine/')
     api.add_resource(_GetDatabase, '/get_database')
     api.add_resource(_AddImage, '/add_image')
+    api.add_resource(_Colorscale, '/colorscale')
