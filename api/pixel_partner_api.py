@@ -41,6 +41,8 @@ class PixelPartnerAPI:
         
     class _GetDatabase(Resource):
         def get(self):
+            # Debugging
+            debugDatabase()
             return queryImages()
         
     class _AddImage(Resource):
