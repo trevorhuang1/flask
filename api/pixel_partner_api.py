@@ -29,7 +29,7 @@ class PixelPartnerAPI:
             response = jsonify({"base64image": imageToBase64(pixelated_image)})
             print(data['addToHistory'])
             if data['addToHistory']:
-                createImage('Testing', 'pixelate', imageToBase64(pixelated_image)) # adds to database
+                createImage(data['filename'], 'pixelate', imageToBase64(pixelated_image)) # adds to database
             return response
         
     class _Combine(Resource):
@@ -39,7 +39,7 @@ class PixelPartnerAPI:
             combined_image = combine(data['base64image1'], data['base64image2'], data['direction'])
             response = jsonify({"base64image": combined_image})
             if data['AddToHistory']:
-                createImage(data['image_name'], 'combine', imageToBase64(combined_image)) # adds to database
+                createImage(data['filename'], 'combine', imageToBase64(combined_image)) # adds to database
             return response
         
     class _GetDatabase(Resource):
@@ -59,7 +59,8 @@ class PixelPartnerAPI:
             data = request.get_json() 
             colored_image = colorscale(base64toImage(data['Base64Image']), tuple([int(data['R']), int(data['G']), int(data['B'])]))
             response = jsonify({"Base64Image": imageToBase64(colored_image)})
-            createImage(data['image_name'], 'colorscale', imageToBase64(colored_image)) # adds to database
+            if data['addToHistory']:
+                createImage(data['filename'], 'colorscale', imageToBase64(colored_image)) # adds to database
             return response
 
     #Grayscale
@@ -68,7 +69,8 @@ class PixelPartnerAPI:
             data = request.get_json() 
             colored_image = grayscale(base64toImage(data['Base64Image']))
             response = jsonify({"Base64Image": imageToBase64(colored_image)})
-            createImage(data['image_name'], 'grayscale', imageToBase64(colored_image)) # adds to database
+            if data['addToHistory']:
+                createImage(data['filename'], 'greyscale', imageToBase64(colored_image)) # adds to database
             return response
 
     api.add_resource(_Test, '/test')
