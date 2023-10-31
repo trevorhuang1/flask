@@ -2,9 +2,19 @@
 
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
+from PIL import Image
+import base64
+from io import BytesIO
 import json # NOTE: Can replace with Flask jsonify later
 
 Base = declarative_base()
+
+def imageToBase64(image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue())
+    img_str = img_str.decode('utf-8')
+    return img_str
 
 # Initialize DB
 def initializeDatabase():
@@ -21,9 +31,9 @@ def initializeDatabase():
 
 class Images(Base):
     __tablename__ = 'images'
-    imageName = Column(String, primary_key=True, nullable=False)  # Added nullable=False for primary key
-    imageFunc = Column(String, nullable=False)  # Added nullable=False for non-nullable columns
-    imageBase64 = Column(String, nullable=False)
+    imageName = Column(String, primary_key=True, nullable=False, unique=False)  # Added nullable=False for primary key
+    imageFunc = Column(String, nullable=False, unique=False)  # Added nullable=False for non-nullable columns
+    imageBase64 = Column(String, nullable=False, unique=False)
 
 # Insert data into the database
 def createImage(name, func, image):
@@ -50,15 +60,13 @@ def queryImages():
 
 # Debugging
 def debugDatabase():
-    initializeDatabase()
-    createImage("test1", "pixelate", "base-64sdfsdfsdfsdf")
-    createImage("test2", "combine", "base-64yayayayayaya")
-    createImage("test3", "a", "sdfsdfasfsdf-ballin")
-    createImage("test4", "b", "waltuh")
+    print('debugged')
 
 # Testing
 if __name__ == "__main__": 
     initializeDatabase()
+    createImage('Oregon_Caves.jpg', "pixelate", imageToBase64(Image.open('Oregon_Caves.jpg')))
+    createImage('National_Monuments.jpg', "combine", imageToBase64(Image.open('National_Monuments.jpg')))
     """
     session.rollback()
 
