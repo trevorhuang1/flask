@@ -19,6 +19,14 @@ def initializeDatabase():
     # Create the database table
     Base.metadata.create_all(engine)
 
+# Clear database
+def clearDatabase():
+    initializeDatabase()
+    session.query(Images).delete()
+    session.commit()
+    session.close()
+
+    #session.close()
 class Images(Base):
     __tablename__ = 'images'
     imageName = Column(String, primary_key=True, nullable=False)  # Added nullable=False for primary key

@@ -42,17 +42,21 @@ class PixelPartnerAPI:
     class _GetDatabase(Resource):
         def get(self):
             # Debugging
-            debugDatabase()
+            # debugDatabase()
             return queryImages()
         
     class _AddImage(Resource):
         def post(self):
             data = request.get_json()
             createImage(data["Name"], data["Function"], data["Base64Image"])
-
+            
+    class _ClearDatabase(Resource):
+        def get(self):
+            clearDatabase()
 
     api.add_resource(_Test, '/test')
     api.add_resource(_Pixelate, '/pixelate/')
     api.add_resource(_Combine, '/combine/')
     api.add_resource(_GetDatabase, '/get_database')
     api.add_resource(_AddImage, '/add_image')
+    api.add_resource(_ClearDatabase, '/clear_database')
