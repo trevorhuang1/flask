@@ -27,7 +27,7 @@ class PixelPartnerAPI:
             data = request.get_json()  # Get JSON data from the request
             pixelated_image = pixelate(base64toImage(data['base64image']), int(data['pixelate_level']))
             response = jsonify({"base64image": imageToBase64(pixelated_image)})
-            createImage(data['image_name'], 'pixelate', imageToBase64(pixelated_image)) # adds to database
+            # createImage(data['image_name'], 'pixelate', imageToBase64(pixelated_image)) # adds to database
             return response
         
     class _Combine(Resource):
@@ -36,13 +36,13 @@ class PixelPartnerAPI:
             print(data)
             combined_image = combine(data['base64image1'], data['base64image2'], data['direction'])
             response = jsonify({"base64image": combined_image})
-            createImage(data['image_name'], 'combine', imageToBase64(combined_image)) # adds to database
+            # createImage(data['image_name'], 'combine', imageToBase64(combined_image)) # adds to database
             return response
         
     class _GetDatabase(Resource):
         def get(self):
             # Debugging
-            debugDatabase()
+            # debugDatabase()
             return queryImages()
         
     class _AddImage(Resource):
@@ -59,7 +59,7 @@ class PixelPartnerAPI:
             createImage(data['image_name'], 'colorscale', imageToBase64(colored_image)) # adds to database
             return response
 
-#Grayscale
+    #Grayscale
     class _Grayscale(Resource):
         def post(self):
             data = request.get_json() 
