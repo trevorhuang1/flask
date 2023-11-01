@@ -38,7 +38,7 @@ class PixelPartnerAPI:
             print(data)
             combined_image = combine(data['base64image1'], data['base64image2'], data['direction'])
             response = jsonify({"base64image": combined_image})
-            if data['AddToHistory']:
+            if data['addToHistory']:
                 createImage(data['filename'], 'combine', imageToBase64(combined_image)) # adds to database
             return response
         
