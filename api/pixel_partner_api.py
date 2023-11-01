@@ -60,8 +60,8 @@ class PixelPartnerAPI:
     class _Colorscale(Resource):
         def post(self):
             data = request.get_json() 
-            colored_image = colorscale(base64toImage(data['Base64Image']), tuple([int(data['R']), int(data['G']), int(data['B'])]))
-            response = jsonify({"Base64Image": imageToBase64(colored_image)})
+            colored_image = colorscale(base64toImage(data['base64image']), tuple([int(data['R']), int(data['G']), int(data['B'])]))
+            response = jsonify({"base64image": imageToBase64(colored_image)})
             if data['addToHistory']:
                 createImage(data['filename'], 'colorscale', imageToBase64(colored_image)) # adds to database
             return response
@@ -70,8 +70,8 @@ class PixelPartnerAPI:
     class _Grayscale(Resource):
         def post(self):
             data = request.get_json() 
-            colored_image = grayscale(base64toImage(data['Base64Image']))
-            response = jsonify({"Base64Image": imageToBase64(colored_image)})
+            colored_image = grayscale(base64toImage(data['base64image']))
+            response = jsonify({"base64image": imageToBase64(colored_image)})
             if data['addToHistory']:
                 createImage(data['filename'], 'greyscale', imageToBase64(colored_image)) # adds to database
             return response
