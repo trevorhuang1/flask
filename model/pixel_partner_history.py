@@ -9,13 +9,6 @@ import json # NOTE: Can replace with Flask jsonify later
 
 Base = declarative_base()
 
-def imageToBase64(image):
-    buffered = BytesIO()
-    image.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue())
-    img_str = img_str.decode('utf-8')
-    return img_str
-
 # Initialize DB
 def initializeDatabase():
     # Global so all functions can use

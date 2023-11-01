@@ -35,11 +35,10 @@ class PixelPartnerAPI:
     class _Combine(Resource):
         def post(self):
             data = request.get_json()
-            print(data)
             combined_image = combine(data['base64image1'], data['base64image2'], data['direction'])
             response = jsonify({"base64image": combined_image})
             if data['addToHistory']:
-                createImage(data['filename'], 'combine', imageToBase64(combined_image)) # adds to database
+                createImage(data['filename'], 'combine', combined_image) # adds to database
             return response
         
     class _GetDatabase(Resource):
